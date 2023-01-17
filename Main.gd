@@ -14,7 +14,7 @@ func _ready():
 	currentTowerArray = []
 	currentTowerCapacity = -1
 
-func _process(delta):
+func _process(_delta):
 	
 	# Test Key: Enter
 	if Input.is_action_just_pressed("ui_accept"):

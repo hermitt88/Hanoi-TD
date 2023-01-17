@@ -16,7 +16,7 @@ script = ExtResource( 3 )
 [node name="Towers" type="Node2D" parent="."]
 
 [node name="testBox1" type="Area2D" parent="Towers"]
-position = Vector2( 640, 384 )
+position = Vector2( 448, 384 )
 collision_layer = 4
 collision_mask = 2
 script = ExtResource( 4 )
@@ -41,7 +41,7 @@ margin_right = 146.0
 margin_bottom = -10.0
 
 [node name="testBox2" type="Area2D" parent="Towers"]
-position = Vector2( 896, 384 )
+position = Vector2( 640, 384 )
 collision_layer = 4
 collision_mask = 2
 script = ExtResource( 4 )
@@ -65,8 +65,33 @@ margin_top = -49.0
 margin_right = 146.0
 margin_bottom = -10.0
 
+[node name="testBox3" type="Area2D" parent="Towers"]
+position = Vector2( 832, 384 )
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Towers/testBox3"]
+position = Vector2( 8, 96 )
+shape = SubResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="Towers/testBox3"]
+margin_right = 16.0
+margin_bottom = 192.0
+
+[node name="Turrets" type="Node2D" parent="Towers/testBox3"]
+
+[node name="Label" type="Label" parent="Towers/testBox3"]
+margin_left = -85.0
+margin_top = -49.0
+margin_right = 146.0
+margin_bottom = -10.0
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 500, 515 )
+position = Vector2( 350, 515 )
 collision_layer = 2
 collision_mask = 4
 
@@ -78,6 +103,6 @@ collision_mask = 4
 [connection signal="area_entered" from="Towers/testBox2" to="Towers/testBox2" method="_on_testBox_area_entered"]
 [connection signal="area_exited" from="Towers/testBox2" to="Towers/testBox2" method="_on_testBox_area_exited"]
 [connection signal="towerSignal" from="Towers/testBox2" to="." method="_on_testBox1_towerSignal"]
-[connection signal="area_entered" from="Player" to="Player" method="_on_Player_area_entered"]
-[connection signal="area_exited" from="Player" to="Player" method="_on_Player_area_exited"]
-[connection signal="playerSignal" from="Player" to="." method="_on_Player_playerSignal"]
+[connection signal="area_entered" from="Towers/testBox3" to="Towers/testBox3" method="_on_testBox_area_entered"]
+[connection signal="area_exited" from="Towers/testBox3" to="Towers/testBox3" method="_on_testBox_area_exited"]
+[connection signal="towerSignal" from="Towers/testBox3" to="." method="_on_testBox1_towerSignal"]
