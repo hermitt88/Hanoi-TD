@@ -32,10 +32,6 @@ func _process(delta):
 	#velocity = move_and_slide(velocity * speed)
 	position.x = clamp(position.x, 0, screen_size.x)
 	
-	if onHand:
-		$Label.text = String(onHand)
-	else:
-		$Label.text = "Empty"
 	update()
 
 func _draw():

@@ -1,18 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=3]
-[ext_resource path="res://testBox1.gd" type="Script" id=4]
+[ext_resource path="res://Towers.gd" type="Script" id=4]
 [ext_resource path="res://AlienPath.gd" type="Script" id=5]
-[ext_resource path="res://AlienBeige.tscn" type="PackedScene" id=6]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 96 )
 
 [sub_resource type="Curve2D" id=2]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 1216, 576, 0, 0, 0, 0, 0, 576 )
+"points": PoolVector2Array( 0, 0, 0, 0, 1216, 576, 0, 0, 0, 0, 64, 576 )
 }
 
 [node name="Main" type="Node2D"]
@@ -21,105 +17,15 @@ script = ExtResource( 3 )
 [node name="TileMap" parent="." instance=ExtResource( 1 )]
 
 [node name="Towers" type="Node2D" parent="."]
-
-[node name="testBox1" type="Area2D" parent="Towers"]
-position = Vector2( 448, 384 )
-collision_layer = 4
-collision_mask = 2
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Towers/testBox1"]
-position = Vector2( 8, 96 )
-shape = SubResource( 1 )
-
-[node name="ColorRect" type="ColorRect" parent="Towers/testBox1"]
-margin_right = 16.0
-margin_bottom = 192.0
-
-[node name="Turrets" type="Node2D" parent="Towers/testBox1"]
-
-[node name="Label" type="Label" parent="Towers/testBox1"]
-margin_left = -85.0
-margin_top = -49.0
-margin_right = 146.0
-margin_bottom = -10.0
-
-[node name="testBox2" type="Area2D" parent="Towers"]
-position = Vector2( 640, 384 )
-collision_layer = 4
-collision_mask = 2
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Towers/testBox2"]
-position = Vector2( 8, 96 )
-shape = SubResource( 1 )
-
-[node name="ColorRect" type="ColorRect" parent="Towers/testBox2"]
-margin_right = 16.0
-margin_bottom = 192.0
-
-[node name="Turrets" type="Node2D" parent="Towers/testBox2"]
-
-[node name="Label" type="Label" parent="Towers/testBox2"]
-margin_left = -85.0
-margin_top = -49.0
-margin_right = 146.0
-margin_bottom = -10.0
-
-[node name="testBox3" type="Area2D" parent="Towers"]
-position = Vector2( 832, 384 )
-collision_layer = 4
-collision_mask = 2
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Towers/testBox3"]
-position = Vector2( 8, 96 )
-shape = SubResource( 1 )
-
-[node name="ColorRect" type="ColorRect" parent="Towers/testBox3"]
-margin_right = 16.0
-margin_bottom = 192.0
-
-[node name="Turrets" type="Node2D" parent="Towers/testBox3"]
-
-[node name="Label" type="Label" parent="Towers/testBox3"]
-margin_left = -85.0
-margin_top = -49.0
-margin_right = 146.0
-margin_bottom = -10.0
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 350, 515 )
+position = Vector2( 128, 515 )
 collision_layer = 2
 collision_mask = 4
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource( 2 )
-
-[node name="AlienPath" type="PathFollow2D" parent="Path2D"]
-position = Vector2( 1216, 576 )
-rotate = false
 script = ExtResource( 5 )
 
-[node name="AlienBeige" parent="Path2D/AlienPath" instance=ExtResource( 6 )]
-
 [connection signal="updateHand" from="." to="Player" method="_on_Main_updateHand"]
-[connection signal="updateTower" from="." to="Towers/testBox1" method="_on_Main_updateTower"]
-[connection signal="area_entered" from="Towers/testBox1" to="Towers/testBox1" method="_on_testBox_area_entered"]
-[connection signal="area_exited" from="Towers/testBox1" to="Towers/testBox1" method="_on_testBox_area_exited"]
-[connection signal="towerSignal" from="Towers/testBox1" to="." method="_on_testBox1_towerSignal"]
-[connection signal="area_entered" from="Towers/testBox2" to="Towers/testBox2" method="_on_testBox_area_entered"]
-[connection signal="area_exited" from="Towers/testBox2" to="Towers/testBox2" method="_on_testBox_area_exited"]
-[connection signal="towerSignal" from="Towers/testBox2" to="." method="_on_testBox1_towerSignal"]
-[connection signal="area_entered" from="Towers/testBox3" to="Towers/testBox3" method="_on_testBox_area_entered"]
-[connection signal="area_exited" from="Towers/testBox3" to="Towers/testBox3" method="_on_testBox_area_exited"]
-[connection signal="towerSignal" from="Towers/testBox3" to="." method="_on_testBox1_towerSignal"]

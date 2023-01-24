@@ -1,7 +1,16 @@
-extends PathFollow2D
+extends Path2D
 
-var speed = 50
+var AlienBeige = preload("res://AlienBeige.tscn")
 
-func _process(delta):
-	var new_offset = get_offset() + speed * delta
-	set_offset(new_offset)
+func _ready():
+	testWave()
+	
+#func _process(delta):
+	
+
+func testWave():
+	var new_AlienBeige = AlienBeige.instance()
+	add_child(new_AlienBeige, true)
+	yield(get_tree().create_timer(3), "timeout")
+	testWave()
+	

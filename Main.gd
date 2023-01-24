@@ -25,6 +25,7 @@ func _process(_delta):
 		emit_signal("updateHand", playerHand)
 	
 	if Input.is_action_just_pressed("ui_select"):
+		print(playerVisiting)
 		if playerVisiting != -1:
 			if playerHand:
 				if !currentTowerArray or currentTowerArray.size() < currentTowerCapacity and currentTowerArray[-1] > playerHand:
@@ -40,8 +41,9 @@ func _process(_delta):
 			print("please visit anywhere")
 
 
-
-func _on_testBox1_towerSignal(towerIndex, playerHere, towerArray, towerCapacity):
+#타워시그널 잃어버림!!!!
+func _on_Tower_towerSignal(towerIndex, playerHere, towerArray, towerCapacity):
+	print("towerIndex ", towerIndex, " playerHere ", playerHere)
 	playerVisiting = towerIndex if playerHere else -1
 	currentTowerArray = towerArray 
 	currentTowerCapacity = towerCapacity

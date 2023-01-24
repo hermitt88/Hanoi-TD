@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "Tower",
 "language": "GDScript",
-"path": "res://testBox1.gd"
+"path": "res://Tower.gd"
 } ]
 _global_script_class_icons={
 "Tower": ""
