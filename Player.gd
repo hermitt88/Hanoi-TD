@@ -7,9 +7,9 @@ var screen_size
 
 var onHand = null
 var cellSize = 64
-var diskThickness = 40
+var diskThickness = 28
 
-var colorWhite = Color(255, 255, 255, 1)
+const colorWhite = Color(255, 255, 255, 1)
 
 #signal playerSignal(onHand)
 

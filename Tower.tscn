@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 96 )
 
-[node name="Tower1" type="Area2D"]
+[node name="Tower1" type="Area2D" groups=["bullets"]]
 position = Vector2( 320, 384 )
 collision_layer = 4
 collision_mask = 2
