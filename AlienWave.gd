@@ -5,32 +5,40 @@ extends PathFollow2D
 
 var speed = 150
 
-var hp = 20
+var hp
+var alive
 
-onready var box = $HBoxContainer/ColorRect
+onready var hpBar = $TextureProgress
 
 func _ready():
-	box.anchor_left = 0
-	box.anchor_right = 1
-	box.anchor_top = 0
-	box.anchor_bottom = 1
+	hpBar.value = 100
+	hp = 20
+	alive = true
+	$AlienBeige/AnimatedSprite.play("walk")
 
 func _process(delta):
-	if hp < 0:
-		queue_free()
+	if hp <= 0:
+		if alive:
+			alive = false
+			hpBar.visible = false
+			$AlienBeige/AnimatedSprite.play("hurt")
+			yield(get_tree().create_timer(0.5), "timeout")
+			queue_free()
+		else:
+			pass
 
-	#var new_offset = get_offset() + speed * delta
-	var progress = get_unit_offset()
-	if progress < 1:
-		set_offset(get_offset() + speed * delta)
 	else:
-		$AlienBeige/AnimatedSprite.play("swim")
-		yield($AlienBeige/AnimatedSprite, "animation_finished")
-		queue_free()
+		var progress = get_unit_offset()
+		if progress < 1:
+			set_offset(get_offset() + speed * delta)
+		else:
+			$AlienBeige/AnimatedSprite.play("swim")
+			yield($AlienBeige/AnimatedSprite, "animation_finished")
+			queue_free()
 
 
 func _on_AlienBeige_area_entered(area):
-	if area.is_in_group("bullets"):
+	if alive and area.is_in_group("bullets"):
 		hp -= area.damage
-		box.anchor_right = hp / 20
+		hpBar.value = hp / 20 * 100
 		area.queue_free()

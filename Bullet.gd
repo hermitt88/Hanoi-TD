@@ -7,7 +7,7 @@ var speed = 450
 
 var damage
 
-signal damage(dmg)
+#signal damage(dmg)
 
 func _ready():
 	screen_size = get_viewport_rect().size

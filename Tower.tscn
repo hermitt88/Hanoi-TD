@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Tower.gd" type="Script" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 96 )
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 168, 96 )
+
 [node name="Tower1" type="Area2D" groups=["bullets"]]
 position = Vector2( 320, 384 )
 collision_layer = 4
 collision_mask = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 8, 96 )
@@ -22,6 +22,13 @@ shape = SubResource( 1 )
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 16.0
 margin_bottom = 192.0
+
+[node name="ScanEnemy" type="Area2D" parent="."]
+position = Vector2( 100, 0 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ScanEnemy"]
+position = Vector2( 52, 96 )
+shape = SubResource( 2 )
 
 [connection signal="area_entered" from="." to="." method="_on_Tower_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_Tower_area_exited"]
