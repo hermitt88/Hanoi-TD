@@ -36,9 +36,10 @@ func _process(delta):
 
 func _draw():
 	if onHand:
-		draw_disk(5, onHand)
+		draw_disk(6, onHand)
 
-func draw_disk(height, diskLevel):
+func draw_disk(height, disk):
+	var diskLevel = disk
 	var center = Vector2(0, -cellSize * height)
 	var circleCenter1 = center + Vector2.LEFT * diskThickness * diskLevel * 0.5
 	var circleCenter2 = center + Vector2.RIGHT * diskThickness * diskLevel * 0.5

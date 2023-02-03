@@ -18,12 +18,13 @@ script = ExtResource( 3 )
 [node name="Towers" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 128, 515 )
+position = Vector2( 128, 576 )
 collision_layer = 2
 collision_mask = 4
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-offset = Vector2( 0, -155 )
+[node name="PlayerCam" type="Camera2D" parent="Player"]
+offset = Vector2( 0, -216 )
+current = true
 
 [node name="AlienPath" type="Path2D" parent="."]
 curve = SubResource( 2 )
