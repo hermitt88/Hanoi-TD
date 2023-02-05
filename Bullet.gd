@@ -6,6 +6,9 @@ var screen_size
 var speed = 450
 
 var damage
+var atkPierce
+var atkDuration
+var atkFreeze
 
 #signal damage(dmg)
 
@@ -21,4 +24,4 @@ func _process(delta):
 		position.x += speed * delta
 
 func _draw():
-	draw_circle(Vector2.ZERO, 10, colorRed)
+	draw_circle(Vector2.ZERO, 10, colorWhite)

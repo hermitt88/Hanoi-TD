@@ -2,7 +2,7 @@ extends Node2D
 
 var playerVisiting
 var playerHand
-var currentTowerArray
+var currentDiskArray
 var currentTowerLevel
 
 #var rng = RandomNumberGenerator.new()
@@ -17,7 +17,7 @@ func _ready():
 	randomize()
 	playerVisiting = -1
 	playerHand = null
-	currentTowerArray = []
+	currentDiskArray = []
 	currentTowerLevel = -1
 	three_towers()
 
@@ -44,14 +44,14 @@ func _process(_delta):
 		if playerVisiting != -1:
 			print("Interacting with Tower#", playerVisiting)
 			if playerHand:
-				if !currentTowerArray or currentTowerArray.size() < currentTowerLevel and currentTowerArray[-1] > playerHand:
-					currentTowerArray.append(playerHand)
+				if !currentDiskArray or currentDiskArray.size() < currentTowerLevel and currentDiskArray[-1] > playerHand:
+					currentDiskArray.append(playerHand)
 					playerHand = null
 			else:
-				if currentTowerArray:
-					playerHand = currentTowerArray.pop_back()
+				if currentDiskArray:
+					playerHand = currentDiskArray.pop_back()
 			
-			emit_signal("updateTower", playerVisiting, currentTowerArray)
+			emit_signal("updateTower", playerVisiting, currentDiskArray)
 			emit_signal("updateHand", playerHand)
 		else:
 			print("please visit anywhere")
@@ -63,9 +63,9 @@ func three_towers():
 		Towers.add_child(new_Tower, true)
 		new_Tower.connect("towerSignal", self, "_on_Tower_towerSignal")
 
-func _on_Tower_towerSignal(towerIndex, playerHere, towerArray, towerLevel):
+func _on_Tower_towerSignal(towerIndex, playerHere, diskArray, towerLevel):
 	playerVisiting = towerIndex if playerHere else -1
-	currentTowerArray = towerArray 
+	currentDiskArray = diskArray
 	currentTowerLevel = towerLevel
 
 

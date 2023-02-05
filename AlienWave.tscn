@@ -48,7 +48,6 @@ script = ExtResource( 3 )
 position = Vector2( 0, -46 )
 frames = SubResource( 1 )
 animation = "walk"
-frame = 1
 playing = true
 flip_h = true
 

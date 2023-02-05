@@ -27,6 +27,7 @@ offset = Vector2( 0, -216 )
 current = true
 
 [node name="AlienPath" type="Path2D" parent="."]
+z_index = 3
 curve = SubResource( 2 )
 script = ExtResource( 5 )
 

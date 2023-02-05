@@ -7,6 +7,8 @@ var speed = 150
 
 var hp
 var alive
+var freeze
+var freezeTime
 
 onready var hpBar = $TextureProgress
 
@@ -14,6 +16,7 @@ func _ready():
 	hpBar.value = 100
 	hp = 20
 	alive = true
+	freeze = false
 	$AlienBeige/AnimatedSprite.play("walk")
 
 func _process(delta):
@@ -29,16 +32,28 @@ func _process(delta):
 
 	else:
 		var progress = get_unit_offset()
-		if progress < 1:
-			set_offset(get_offset() + speed * delta)
-		else:
+		if progress == 1:
 			$AlienBeige/AnimatedSprite.play("swim")
 			yield($AlienBeige/AnimatedSprite, "animation_finished")
 			queue_free()
+		else:
+			if !freeze:
+				set_offset(get_offset() + speed * delta)
 
 
 func _on_AlienBeige_area_entered(area):
 	if alive and area.is_in_group("bullets"):
 		hp -= area.damage
 		hpBar.value = hp / 20 * 100
-		area.queue_free()
+		if area.atkPierce == 0:
+			area.queue_free()
+		area.atkPierce -= 1
+		if area.atkFreeze:
+			freeze = true
+			$AlienBeige.modulate = Color(0, 0, 1)
+			$AlienBeige/AnimatedSprite.stop()
+			yield(get_tree().create_timer(area.atkFreeze), "timeout")
+			if alive:
+				$AlienBeige/AnimatedSprite.play()
+				$AlienBeige.modulate = Color(1, 1, 1)
+				freeze = false
