@@ -11,6 +11,8 @@ signal towerSignal(towerIndex, playerHere, diskArray, towerLevel)
 #signal towerLevelUp()
 #signal maxTowerLevel()
 
+#onready var Main = get_node("/root/Main")
+
 #var rng = RandomNumberGenerator.new()
 
 var Bullet = preload("res://Bullet.tscn")
@@ -52,11 +54,12 @@ func generateFloor():
 	var thisFloor = {}
 	var typeNum
 	thisFloor["power"] = pow(towerArray.size() + 1, 2)
-	if towerArray.size():
+	#if towerArray.size():
 		#typeNum = rng.randi_range(1, 3) #number of atk types
-		typeNum = randi() % 3 + 1
-	else:
-		typeNum = 0
+		#typeNum = randi() % 3 + 1
+	#else:
+	#	typeNum = 0
+	typeNum = randi() % 3 + 1
 	thisFloor["type"] =  colorArray[typeNum]
 	towerArray.append(thisFloor)
 	pass
