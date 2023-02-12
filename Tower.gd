@@ -93,7 +93,7 @@ func fire():
 			if towerArray[i]["type"] == colorRed:
 				Pierce += 1
 			if towerArray[i]["type"] == colorBlue:
-				Freeze += 0.5
+				Freeze += 0.2
 			if towerArray[i]["type"] == colorGreen:
 				Duration *= 0.9
 		newBullet.damage = BulletDamage

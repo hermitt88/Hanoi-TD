@@ -38,7 +38,9 @@ func _process(_delta):
 			playerHand = randi() % 3 + 1
 		emit_signal("updateHand", playerHand)
 	
-	if Input.is_action_just_pressed("clear_wave") or Input.is_action_just_pressed("reset_simulation"):
+	if Input.is_action_just_pressed("clear_wave"):
+		timeRef = OS.get_unix_time()
+		GameTimerText.text = "0"
 		for i in $AlienPath.get_children():
 			i.queue_free()
 			

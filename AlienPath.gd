@@ -12,6 +12,6 @@ func testWave():
 	var new_AlienWave = AlienWave.instance()
 	new_AlienWave.get_child(0).position.y -= randi() % 10
 	add_child(new_AlienWave, true)
-	yield(get_tree().create_timer(3), "timeout")
+	yield(get_tree().create_timer(1.5), "timeout")
 	testWave()
 	#new_AlienWave.connect("towerSignal", self, "_on_Tower_towerSignal")

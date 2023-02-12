@@ -48,6 +48,7 @@ func _on_AlienBeige_area_entered(area):
 		if area.atkPierce == 0:
 			area.queue_free()
 		area.atkPierce -= 1
+		area.damage *= 0.5
 		if area.atkFreeze:
 			freeze = true
 			$AlienBeige.modulate = Color(0, 0, 1)
