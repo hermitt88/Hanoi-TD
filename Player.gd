@@ -11,8 +11,6 @@ var diskThickness = 28
 
 const colorWhite = Color(255, 255, 255, 1)
 
-#signal playerSignal(onHand)
-
 func _ready():
 	screen_size = get_viewport_rect().size
 
@@ -29,7 +27,6 @@ func _process(delta):
 		$AnimatedSprite.play("idle")
 	
 	position += velocity * speed * delta
-	#velocity = move_and_slide(velocity * speed)
 	position.x = clamp(position.x, 0, screen_size.x)
 	
 	update()
@@ -49,11 +46,6 @@ func draw_disk(height, disk):
 	draw_circle(circleCenter1, circleRadius, colorWhite)
 	draw_circle(circleCenter2, circleRadius, colorWhite)
 	draw_rect(Rect2(rectStart, rectSize), colorWhite)
-
-
-#func _on_Player_area_entered(_area):
-#	if onHand:
-#		emit_signal("playerSignal", onHand)
 
 func _on_Main_updateHand(to):
 	onHand = to

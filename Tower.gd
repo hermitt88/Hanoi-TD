@@ -11,8 +11,6 @@ signal towerSignal(towerIndex, playerHere, diskArray, towerLevel)
 #signal towerLevelUp()
 #signal maxTowerLevel()
 
-#onready var Main = get_node("/root/Main")
-
 #var rng = RandomNumberGenerator.new()
 
 var Bullet = preload("res://Bullet.tscn")
@@ -53,12 +51,8 @@ func _draw():
 func generateFloor():
 	var thisFloor = {}
 	var typeNum
-	thisFloor["power"] = pow(towerArray.size() + 1, 2)
-	#if towerArray.size():
-		#typeNum = rng.randi_range(1, 3) #number of atk types
-		#typeNum = randi() % 3 + 1
-	#else:
-	#	typeNum = 0
+	#thisFloor["power"] = pow(towerArray.size() + 1, 2)
+	thisFloor["power"] = 2
 	typeNum = randi() % 3 + 1
 	thisFloor["type"] =  colorArray[typeNum]
 	towerArray.append(thisFloor)
@@ -82,8 +76,7 @@ func draw_disk(height, diskLevel):
 func fire():
 	if diskArray:
 		var newBullet = Bullet.instance()
-		newBullet.position.y = - 48
-		#newBullet.position.y = 192 - 48 + randi() % 65 - 32
+		newBullet.position.y = - 48 + randi() % 65 - 32
 		var BulletDamage = 0
 		var Pierce = 0
 		var Freeze = 0
@@ -95,7 +88,7 @@ func fire():
 			if towerArray[i]["type"] == colorBlue:
 				Freeze += 0.2
 			if towerArray[i]["type"] == colorGreen:
-				Duration *= 0.9
+				Duration *= 0.8
 		newBullet.damage = BulletDamage
 		newBullet.atkPierce = Pierce
 		newBullet.atkFreeze = Freeze
@@ -111,7 +104,6 @@ func _on_Main_updateTower(nth, to):
 func _on_Tower_area_entered(area):
 	if area.get_name() == "Player":
 		print("Player entered")
-		#$ColorRect.modulate = Color(0, 0, 255, 0.1)
 		playerHere = true
 		emit_signal("towerSignal", towerIndex, playerHere, diskArray, towerLevel)
 

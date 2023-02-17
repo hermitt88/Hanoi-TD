@@ -5,8 +5,6 @@ var playerHand
 var currentDiskArray
 var currentTowerLevel
 
-#var rng = RandomNumberGenerator.new()
-
 signal updateTower(nth, to)
 signal updateHand(to)
 
@@ -25,10 +23,12 @@ func _ready():
 	currentDiskArray = []
 	currentTowerLevel = -1
 	three_towers()
-	timeRef = OS.get_unix_time()
+	timeNow = 0
+	timeRef = 0
 
-func _process(_delta):
-	
+func _process(delta):
+	timeNow += delta
+	GameTimerText.text = "%.2f" % (timeNow - timeRef)
 	
 	# Test Key: Enter(Generate/Eliminate a Disk), R(Clear wave), F(Reset towers)
 	if Input.is_action_just_pressed("ui_accept"):
@@ -39,8 +39,7 @@ func _process(_delta):
 		emit_signal("updateHand", playerHand)
 	
 	if Input.is_action_just_pressed("clear_wave"):
-		timeRef = OS.get_unix_time()
-		GameTimerText.text = "0"
+		timeRef = timeNow
 		for i in $AlienPath.get_children():
 			i.queue_free()
 			
@@ -50,8 +49,7 @@ func _process(_delta):
 		three_towers()
 	
 	if Input.is_action_just_pressed("reset_simulation"):
-		timeRef = OS.get_unix_time()
-		GameTimerText.text = "0"
+		timeRef = timeNow
 		pass
 	
 	if Input.is_action_just_pressed("ui_select"):
@@ -87,8 +85,3 @@ func _on_Tower_towerSignal(towerIndex, playerHere, diskArray, towerLevel):
 
 func _on_Player_playerSignal(onHand):
 	playerHand = onHand
-
-
-func _on_GameTimer_timeout():
-	timeNow = OS.get_unix_time()
-	GameTimerText.text = str(timeNow - timeRef)
