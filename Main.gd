@@ -5,6 +5,14 @@ var playerHand
 var currentDiskArray
 var currentTowerLevel
 
+var cellSize = 64
+var diskThickness = 28
+
+const colorWhite = Color(255, 255, 255, 1)
+const colorRed = Color(255, 0, 0, 1)
+const colorGreen = Color(0, 255, 0, 1)
+const colorBlue = Color(0, 0, 255, 0.5)
+
 signal updateTower(nth, to)
 signal updateHand(to)
 
@@ -28,7 +36,7 @@ func _ready():
 
 func _process(delta):
 	timeNow += delta
-	GameTimerText.text = "%.2f" % (timeNow - timeRef)
+	GameTimerText.text = "%.1f" % (timeNow - timeRef)
 	
 	# Test Key: Enter(Generate/Eliminate a Disk), R(Clear wave), F(Reset towers)
 	if Input.is_action_just_pressed("ui_accept"):
@@ -56,7 +64,7 @@ func _process(delta):
 		if playerVisiting != -1:
 			print("Interacting with Tower#", playerVisiting)
 			if playerHand:
-				if !currentDiskArray or currentDiskArray.size() < currentTowerLevel and currentDiskArray[-1] > playerHand:
+				if !currentDiskArray or currentDiskArray.size() < currentTowerLevel and playerHand < currentDiskArray[-1]:
 					currentDiskArray.append(playerHand)
 					playerHand = null
 			else:
@@ -67,6 +75,12 @@ func _process(delta):
 			emit_signal("updateHand", playerHand)
 		else:
 			print("please visit anywhere")
+	update()
+
+func _draw():
+	if playerVisiting != -1 and playerHand and (!currentDiskArray or currentDiskArray.size() < currentTowerLevel and playerHand < currentDiskArray[-1]):
+		draw_disk(4, playerHand, colorBlue)
+
 
 func three_towers():
 	for i in [0, 1, 2]:
@@ -78,10 +92,23 @@ func three_towers():
 		new_Tower.connect("towerSignal", self, "_on_Tower_towerSignal")
 
 func _on_Tower_towerSignal(towerIndex, playerHere, diskArray, towerLevel):
-	playerVisiting = towerIndex if playerHere else -1
+	if playerHere:
+		playerVisiting = towerIndex
+	else:
+		playerVisiting = -1
 	currentDiskArray = diskArray
 	currentTowerLevel = towerLevel
 
+func draw_disk(height, diskLevel, diskColor):
+	var center = Vector2(0, cellSize * (-height + 0.5))
+	var circleCenter1 = center + Vector2.LEFT * diskThickness * diskLevel * 0.5
+	var circleCenter2 = center + Vector2.RIGHT * diskThickness * diskLevel * 0.5
+	var circleRadius = diskThickness * 0.5
+	var rectStart = center + Vector2.LEFT * diskThickness * diskLevel * 0.5 + Vector2.UP * diskThickness * 0.5
+	var rectSize = Vector2(diskThickness * diskLevel, diskThickness)
+	draw_circle(circleCenter1, circleRadius, diskColor)
+	draw_circle(circleCenter2, circleRadius, diskColor)
+	draw_rect(Rect2(rectStart, rectSize), diskColor)
 
-func _on_Player_playerSignal(onHand):
-	playerHand = onHand
+#func _on_Player_playerSignal(onHand):
+#	playerHand = onHand

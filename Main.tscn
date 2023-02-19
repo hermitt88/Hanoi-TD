@@ -3,7 +3,7 @@
 [ext_resource path="res://Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=3]
-[ext_resource path="res://assets/fonts/kenvector_future.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/fonts/Kenney Rocket Square.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://AlienPath.gd" type="Script" id=5]
 [ext_resource path="res://assets/images/backgrounds/set4_tiles.png" type="Texture" id=6]
 [ext_resource path="res://assets/images/backgrounds/set2_background.png" type="Texture" id=7]
@@ -16,7 +16,7 @@ font_data = ExtResource( 4 )
 
 [sub_resource type="Curve2D" id=2]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 1216, 576, 0, 0, 0, 0, 64, 576 )
+"points": PoolVector2Array( 0, 0, 0, 0, 1812, 576, 0, 0, 0, 0, 64, 576 )
 }
 
 [node name="Main" type="Node2D"]
@@ -41,7 +41,7 @@ margin_top = -512.0
 margin_right = 576.0
 margin_bottom = -448.0
 custom_fonts/font = SubResource( 3 )
-text = "0"
+text = "0.0"
 align = 2
 valign = 1
 

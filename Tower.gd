@@ -11,12 +11,15 @@ signal towerSignal(towerIndex, playerHere, diskArray, towerLevel)
 #signal towerLevelUp()
 #signal maxTowerLevel()
 
+onready var upgradeBar = $TextureProgress
+
 #var rng = RandomNumberGenerator.new()
 
 var Bullet = preload("res://Bullet.tscn")
 var atkPierce
 var atkDuration
 var atkFreeze
+var atkRange
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
@@ -36,8 +39,10 @@ func _ready():
 		generateFloor()
 	atkPierce = 0
 	atkDuration = 2
-	atkFreeze = 0.5
+	atkFreeze = 0
+	atkRange = 640
 	fire()
+	upgradeBar.visible = false
 
 func _process(_delta):
 	update()
@@ -86,12 +91,13 @@ func fire():
 			if towerArray[i]["type"] == colorRed:
 				Pierce += 1
 			if towerArray[i]["type"] == colorBlue:
-				Freeze += 0.2
+				Freeze += 0.8
 			if towerArray[i]["type"] == colorGreen:
-				Duration *= 0.8
+				Duration *= 0.6
 		newBullet.damage = BulletDamage
 		newBullet.atkPierce = Pierce
 		newBullet.atkFreeze = Freeze
+		newBullet.atkRange = atkRange
 		atkDuration = Duration
 		add_child(newBullet)
 	yield(get_tree().create_timer(atkDuration), "timeout")
@@ -106,6 +112,7 @@ func _on_Tower_area_entered(area):
 		print("Player entered")
 		playerHere = true
 		emit_signal("towerSignal", towerIndex, playerHere, diskArray, towerLevel)
+		
 
 func _on_Tower_area_exited(area):
 	if area.get_name() == "Player":

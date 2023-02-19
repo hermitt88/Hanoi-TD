@@ -9,6 +9,7 @@ var damage
 var atkPierce
 var atkDuration
 var atkFreeze
+var atkRange
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -16,7 +17,7 @@ func _ready():
 
 func _process(delta):
 	update()
-	if position.x > screen_size.x:
+	if position.x > atkRange:
 		queue_free()
 	else:
 		position.x += speed * delta
