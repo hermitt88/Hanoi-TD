@@ -14,7 +14,7 @@ const colorGreen = Color(0, 255, 0, 1)
 const colorBlue = Color(0, 0, 255, 0.5)
 
 signal updateTower(nth, to)
-signal updateHand(to)
+signal updateHand()
 
 onready var Towers = $Towers
 

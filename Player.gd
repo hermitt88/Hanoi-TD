@@ -11,6 +11,10 @@ var onHand = null
 var cellSize = 64
 var diskThickness = 28
 
+var visiting
+var lastVisited
+signal visitingTower()
+
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
 const colorGreen = Color(0, 255, 0, 1)
@@ -18,10 +22,18 @@ const colorBlue = Color(0, 0, 255, 1)
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	visiting = null
 
 func _process(delta):
 	
 	#get_overlapping_areas() 사용해서 코드 깔끔하게 정리할 것
+	if get_overlapping_areas():
+		visiting = get_overlapping_areas().front()
+		if visiting != lastVisited:
+			lastVisited = visiting
+			print(visiting.get("diskArray"))
+	else:
+		lastVisited = null
 	
 	velocity = Vector2.ZERO
 	if Input.is_action_pressed("ui_left"):
@@ -30,7 +42,7 @@ func _process(delta):
 		velocity += Vector2.RIGHT
 	if velocity.length():
 		$AnimatedSprite.play("walk")
-		$AnimatedSprite.flip_h = velocity.x < 0
+		$AnimatedSprite.set("flip_h", velocity.x < 0)
 	else:
 		$AnimatedSprite.play("idle")
 	
@@ -54,5 +66,5 @@ func draw_disk(height, diskLevel, diskColor):
 	draw_circle(circleCenter2, circleRadius, diskColor)
 	draw_rect(Rect2(rectStart, rectSize), diskColor)
 
-func _on_Main_updateHand(to):
-	onHand = to
+func _on_Main_updateHand():
+	pass

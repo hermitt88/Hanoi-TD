@@ -94,10 +94,10 @@ func fire():
 				Freeze += 0.8
 			if towerArray[i]["type"] == colorGreen:
 				Duration *= 0.6
-		newBullet.damage = BulletDamage
-		newBullet.atkPierce = Pierce
-		newBullet.atkFreeze = Freeze
-		newBullet.atkRange = atkRange
+		newBullet.set("damage", BulletDamage)
+		newBullet.set("atkPierce", Pierce)
+		newBullet.set("atkFreeze", Freeze)
+		newBullet.set("atkRange", atkRange)
 		atkDuration = Duration
 		add_child(newBullet)
 	yield(get_tree().create_timer(atkDuration), "timeout")
@@ -109,14 +109,12 @@ func _on_Main_updateTower(nth, to):
 
 func _on_Tower_area_entered(area):
 	if area.get_name() == "Player":
-		print("Player entered")
 		playerHere = true
 		emit_signal("towerSignal", towerIndex, playerHere, diskArray, towerLevel)
 		
 
 func _on_Tower_area_exited(area):
 	if area.get_name() == "Player":
-		print("Player exited")
 		#$ColorRect.modulate = colorWhite
 		playerHere = false
 		emit_signal("towerSignal", towerIndex, playerHere, diskArray, towerLevel)

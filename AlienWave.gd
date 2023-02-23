@@ -22,9 +22,11 @@ func _process(delta):
 		if alive:
 			alive = false
 			hpBar.visible = false
-			$AlienBeige/AnimatedSprite.play("hurt")
+			if !freeze:
+				$AlienBeige/AnimatedSprite.play("hurt")
 			yield(get_tree().create_timer(0.5), "timeout")
-			queue_free()
+			if self:
+				queue_free()
 		else:
 			pass
 
