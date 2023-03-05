@@ -12,6 +12,7 @@ signal towerSignal(towerIndex, playerHere, diskArray, towerLevel)
 #signal maxTowerLevel()
 
 onready var upgradeBar = $TextureProgress
+onready var Player = get_node("/root/Main/Player")
 
 #var rng = RandomNumberGenerator.new()
 
@@ -31,6 +32,9 @@ const colorArray = [colorWhite, colorRed, colorGreen, colorBlue]
 var towerArray = Array()
 var diskArray = Array()
 
+var blueGhost
+var redGhost
+
 func _ready():
 	randomize()
 	towerIndex = self.get_index()
@@ -43,6 +47,10 @@ func _ready():
 	atkRange = 640
 	fire()
 	upgradeBar.visible = false
+	
+	blueGhost = false
+	redGhost = false
+	
 
 func _process(_delta):
 	update()
@@ -51,7 +59,7 @@ func _draw():
 	for i in towerArray.size():
 		draw_tower(i + 1, towerArray[i])
 	for i in diskArray.size():
-		draw_disk(i + 1, diskArray[i])
+		draw_disk(i + 1, diskArray[i], colorWhite)
 
 func generateFloor():
 	var thisFloor = {}
@@ -67,16 +75,16 @@ func draw_tower(height, pole):
 	var poleColor = pole["type"]
 	draw_rect(Rect2(Vector2(-rodWidth * 0.5, -height * cellSize), Vector2(rodWidth, cellSize)), poleColor)
 
-func draw_disk(height, diskLevel):
+func draw_disk(height, diskLevel, diskColor):
 	var center = Vector2(0, cellSize * (-height + 0.5))
 	var circleCenter1 = center + Vector2.LEFT * diskThickness * diskLevel * 0.5
 	var circleCenter2 = center + Vector2.RIGHT * diskThickness * diskLevel * 0.5
 	var circleRadius = diskThickness * 0.5
 	var rectStart = center + Vector2.LEFT * diskThickness * diskLevel * 0.5 + Vector2.UP * diskThickness * 0.5
 	var rectSize = Vector2(diskThickness * diskLevel, diskThickness)
-	draw_circle(circleCenter1, circleRadius, colorWhite)
-	draw_circle(circleCenter2, circleRadius, colorWhite)
-	draw_rect(Rect2(rectStart, rectSize), colorWhite)
+	draw_circle(circleCenter1, circleRadius, diskColor)
+	draw_circle(circleCenter2, circleRadius, diskColor)
+	draw_rect(Rect2(rectStart, rectSize), diskColor)
 
 func fire():
 	if diskArray:

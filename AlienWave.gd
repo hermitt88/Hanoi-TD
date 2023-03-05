@@ -25,8 +25,7 @@ func _process(delta):
 			if !freeze:
 				$AlienBeige/AnimatedSprite.play("hurt")
 			yield(get_tree().create_timer(0.5), "timeout")
-			if self:
-				queue_free()
+			queue_free()
 		else:
 			pass
 
@@ -53,8 +52,9 @@ func _on_AlienBeige_area_entered(area):
 			freeze = true
 			$AlienBeige.modulate = Color(0, 0, 1)
 			$AlienBeige/AnimatedSprite.stop()
-			yield(get_tree().create_timer(area.atkFreeze), "timeout")
-			if alive:
-				$AlienBeige/AnimatedSprite.play()
-				$AlienBeige.modulate = Color(1, 1, 1)
-				freeze = false
+			if is_instance_valid(self):
+				yield(get_tree().create_timer(area.atkFreeze), "timeout")
+				if is_instance_valid(self):
+					$AlienBeige/AnimatedSprite.play()
+					$AlienBeige.modulate = Color(1, 1, 1)
+					freeze = false

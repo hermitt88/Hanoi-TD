@@ -1,6 +1,7 @@
 extends Area2D
 
 onready var PlayerCam = $PlayerCam
+onready var Main = get_node("..")
 
 var velocity = Vector2()
 var speed = 200
@@ -13,7 +14,8 @@ var diskThickness = 28
 
 var visiting
 var lastVisited
-signal visitingTower()
+signal showBlueGhost()
+signal showRedGhost()
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
@@ -23,17 +25,29 @@ const colorBlue = Color(0, 0, 255, 1)
 func _ready():
 	screen_size = get_viewport_rect().size
 	visiting = null
+	Main.connect("newDiskOnHand", self, "_on_newDisk")
+	Main.connect("handleDisk", self, "_on_handleDisk")
 
 func _process(delta):
-	
-	#get_overlapping_areas() 사용해서 코드 깔끔하게 정리할 것
 	if get_overlapping_areas():
 		visiting = get_overlapping_areas().front()
 		if visiting != lastVisited:
 			lastVisited = visiting
-			print(visiting.get("diskArray"))
 	else:
 		lastVisited = null
+	
+	if visiting and onHand:
+		var diskArray = visiting.get("diskArray")
+		var towerLevel = visiting.get("towerLevel")
+		if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
+			visiting.set("blueGhost", true)
+			visiting.set("redGhost", false)
+		else:
+			visiting.set("blueGhost", false)
+			visiting.set("redGhost", true)
+	else:
+		visiting.set("blueGhost", false)
+		visiting.set("redGhost", false)
 	
 	velocity = Vector2.ZERO
 	if Input.is_action_pressed("ui_left"):
@@ -66,5 +80,20 @@ func draw_disk(height, diskLevel, diskColor):
 	draw_circle(circleCenter2, circleRadius, diskColor)
 	draw_rect(Rect2(rectStart, rectSize), diskColor)
 
-func _on_Main_updateHand():
-	pass
+func _on_handleDisk():
+	if visiting:
+		var diskArray = visiting.get("diskArray")
+		var towerLevel = visiting.get("towerLevel")
+		if onHand:
+			if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
+				diskArray.append(onHand)
+				onHand = null
+		else:
+			if diskArray:
+				onHand = diskArray.pop_back()
+		visiting.set("diskArray", diskArray)
+					
+		pass
+
+func _on_newDisk(newHand):
+	onHand = newHand

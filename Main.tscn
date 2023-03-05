@@ -99,5 +99,3 @@ texture = ExtResource( 8 )
 position = Vector2( 1152, 480 )
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 8 )
-
-[connection signal="updateHand" from="." to="Player" method="_on_Main_updateHand"]
