@@ -2,6 +2,7 @@ extends Area2D
 
 onready var PlayerCam = $PlayerCam
 onready var Main = get_node("..")
+onready var Towers = get_node("../Towers")
 
 var velocity = Vector2()
 var speed = 200
@@ -14,13 +15,14 @@ var diskThickness = 28
 
 var visiting
 var lastVisited
-signal showBlueGhost()
-signal showRedGhost()
+signal showGhost(tower, color, disk)
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
+const colorRedGhost = Color(255, 0, 0, 0.2)
 const colorGreen = Color(0, 255, 0, 1)
 const colorBlue = Color(0, 0, 255, 1)
+const colorBlueGhost = Color(0, 0, 255, 0.2)
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -33,21 +35,19 @@ func _process(delta):
 		visiting = get_overlapping_areas().front()
 		if visiting != lastVisited:
 			lastVisited = visiting
-	else:
-		lastVisited = null
-	
-	if visiting and onHand:
-		var diskArray = visiting.get("diskArray")
-		var towerLevel = visiting.get("towerLevel")
-		if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
-			visiting.set("blueGhost", true)
-			visiting.set("redGhost", false)
+		if onHand:
+			var diskArray = visiting.get("diskArray")
+			var towerLevel = visiting.get("towerLevel")
+			if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
+				emit_signal("showGhost", visiting, colorBlueGhost, onHand)
+			else:
+				emit_signal("showGhost", visiting, colorRedGhost, onHand)
 		else:
-			visiting.set("blueGhost", false)
-			visiting.set("redGhost", true)
+			emit_signal("showGhost", visiting, null, onHand)
+			
 	else:
-		visiting.set("blueGhost", false)
-		visiting.set("redGhost", false)
+		emit_signal("showGhost", lastVisited, null, onHand)
+		lastVisited = null
 	
 	velocity = Vector2.ZERO
 	if Input.is_action_pressed("ui_left"):

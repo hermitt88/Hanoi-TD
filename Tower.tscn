@@ -36,6 +36,3 @@ margin_bottom = 16.0
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 3 )
 tint_progress = Color( 1, 0.607843, 0, 1 )
-
-[connection signal="area_entered" from="." to="." method="_on_Tower_area_entered"]
-[connection signal="area_exited" from="." to="." method="_on_Tower_area_exited"]

@@ -7,7 +7,6 @@ var towerLevel
 var cellSize = 64
 var rodWidth = 16
 var diskThickness = 28
-signal towerSignal(towerIndex, playerHere, diskArray, towerLevel)
 #signal towerLevelUp()
 #signal maxTowerLevel()
 
@@ -24,8 +23,10 @@ var atkRange
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
+const colorRedGhost = Color(255, 0, 0, 0.2)
 const colorGreen = Color(0, 255, 0, 1)
 const colorBlue = Color(0, 0, 255, 1)
+const colorBlueGhost = Color(0, 0, 255, 0.2)
 const colorArray = [colorWhite, colorRed, colorGreen, colorBlue]
 # Red: Pierce, Green: Rapid, Blue: Freeze
 
@@ -34,6 +35,8 @@ var diskArray = Array()
 
 var blueGhost
 var redGhost
+var GhostDisk
+var GhostColor
 
 func _ready():
 	randomize()
@@ -46,10 +49,12 @@ func _ready():
 	atkFreeze = 0
 	atkRange = 640
 	fire()
-	upgradeBar.visible = false
+	upgradeBar.set("visible", false)
 	
-	blueGhost = false
-	redGhost = false
+	GhostDisk = null
+	GhostColor = null
+	
+	Player.connect("showGhost", self, "_on_showGhost")
 	
 
 func _process(_delta):
@@ -60,6 +65,8 @@ func _draw():
 		draw_tower(i + 1, towerArray[i])
 	for i in diskArray.size():
 		draw_disk(i + 1, diskArray[i], colorWhite)
+	if GhostColor:
+		draw_disk(diskArray.size() + 1, GhostDisk, GhostColor)
 
 func generateFloor():
 	var thisFloor = {}
@@ -111,18 +118,7 @@ func fire():
 	yield(get_tree().create_timer(atkDuration), "timeout")
 	fire()
 
-func _on_Main_updateTower(nth, to):
-	if towerIndex == nth:
-		diskArray = to
-
-func _on_Tower_area_entered(area):
-	if area.get_name() == "Player":
-		playerHere = true
-		emit_signal("towerSignal", towerIndex, playerHere, diskArray, towerLevel)
-		
-
-func _on_Tower_area_exited(area):
-	if area.get_name() == "Player":
-		#$ColorRect.modulate = colorWhite
-		playerHere = false
-		emit_signal("towerSignal", towerIndex, playerHere, diskArray, towerLevel)
+func _on_showGhost(tower, color, disk):
+	if tower == self:
+		GhostDisk = disk
+		GhostColor = color

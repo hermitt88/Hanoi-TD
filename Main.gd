@@ -73,12 +73,3 @@ func three_towers():
 		if i == 0:
 			new_Tower.diskArray = [3, 2, 1]
 		Towers.add_child(new_Tower, true)
-		new_Tower.connect("towerSignal", self, "_on_Tower_towerSignal")
-
-func _on_Tower_towerSignal(towerIndex, playerHere, diskArray, towerLevel):
-	if playerHere:
-		playerVisiting = towerIndex
-	else:
-		playerVisiting = -1
-	currentDiskArray = diskArray
-	currentTowerLevel = towerLevel
