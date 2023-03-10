@@ -6,6 +6,7 @@ var hp
 var alive
 var freeze
 var freezeTime
+var freezeTimer
 
 onready var hpBar = $TextureProgress
 
@@ -52,9 +53,12 @@ func _on_AlienBeige_area_entered(area):
 			freeze = true
 			$AlienBeige.modulate = Color(0, 0, 1)
 			$AlienBeige/AnimatedSprite.stop()
-			if is_instance_valid(self):
-				yield(get_tree().create_timer(area.atkFreeze), "timeout")
-				if is_instance_valid(self):
-					$AlienBeige/AnimatedSprite.play()
-					$AlienBeige.modulate = Color(1, 1, 1)
-					freeze = false
+			freezeTimer = get_tree().create_timer(area.atkFreeze)
+			yield(freezeTimer, "timeout")
+			$AlienBeige/AnimatedSprite.play()
+			$AlienBeige.modulate = Color(1, 1, 1)
+			freeze = false
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		freezeTimer.set_block_signals(true)
