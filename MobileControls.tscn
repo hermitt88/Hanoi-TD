@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/UI/mobileBtns/leftBtn.png" type="Texture" id=1]
+[ext_resource path="res://assets/UI/mobileBtns/rightBtn.png" type="Texture" id=2]
+[ext_resource path="res://assets/UI/mobileBtns/blueSquare.png" type="Texture" id=3]
+
+[node name="MobileControls" type="CanvasLayer"]
+
+[node name="LeftBtn" type="TouchScreenButton" parent="."]
+normal = ExtResource( 1 )
+passby_press = true
+action = "ui_left"
+
+[node name="RightBtn" type="TouchScreenButton" parent="."]
+position = Vector2( 100, 0 )
+normal = ExtResource( 2 )
+passby_press = true
+action = "ui_right"
+
+[node name="InteractBtn" type="TouchScreenButton" parent="."]
+position = Vector2( 250, 0 )
+normal = ExtResource( 3 )
+action = "ui_select"

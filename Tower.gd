@@ -48,7 +48,7 @@ func _ready():
 	atkDuration = 2
 	atkFreeze = 0
 	atkRange = 640
-	fire()
+	#fire()
 	upgradeBar.set("visible", false)
 	
 	GhostDisk = null

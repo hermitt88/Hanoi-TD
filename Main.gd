@@ -19,7 +19,7 @@ signal newDiskOnHand(newDisk)
 onready var Towers = $Towers
 onready var Player = $Player
 
-onready var GameTimerText = $Player/PlayerCam/GameTimerText
+onready var GameTimerText = $GameTimerText
 var timeRef
 var timeNow
 
