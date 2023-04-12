@@ -1,6 +1,5 @@
 extends Area2D
 
-onready var PlayerCam = $PlayerCam
 onready var Main = get_node("..")
 onready var Towers = get_node("../Towers")
 
@@ -19,10 +18,10 @@ signal showGhost(tower, color, disk)
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
-const colorRedGhost = Color(255, 0, 0, 0.2)
+const colorRedGhost = Color(255, 0, 0, 0.9)
 const colorGreen = Color(0, 255, 0, 1)
 const colorBlue = Color(0, 0, 255, 1)
-const colorBlueGhost = Color(0, 0, 255, 0.2)
+const colorBlueGhost = Color(0, 0, 255, 0.9)
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -62,12 +61,11 @@ func _process(delta):
 	
 	position += velocity * speed * delta
 	position.x = clamp(position.x, 0, screen_size.x)
-	
 	update()
 
 func _draw():
 	if onHand:
-		draw_disk(6, onHand, colorWhite)
+		draw_disk(1, onHand, colorWhite)
 
 func draw_disk(height, diskLevel, diskColor):
 	var center = Vector2(0, -cellSize * height)

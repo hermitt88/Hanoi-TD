@@ -23,10 +23,10 @@ var atkRange
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
-const colorRedGhost = Color(255, 0, 0, 0.2)
+const colorRedGhost = Color(255, 0, 0, 1)
 const colorGreen = Color(0, 255, 0, 1)
 const colorBlue = Color(0, 0, 255, 1)
-const colorBlueGhost = Color(0, 0, 255, 0.2)
+const colorBlueGhost = Color(0, 0, 255, 1)
 const colorArray = [colorWhite, colorRed, colorGreen, colorBlue]
 # Red: Pierce, Green: Rapid, Blue: Freeze
 

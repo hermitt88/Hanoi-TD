@@ -5,6 +5,8 @@ var playerHand
 var currentDiskArray
 var currentTowerLevel
 
+var screen_size
+
 var cellSize = 64
 var diskThickness = 28
 
@@ -26,6 +28,7 @@ var timeNow
 var Tower = preload("res://Tower.tscn")
 
 func _ready():
+	screen_size = get_viewport_rect().size
 	randomize()
 	playerVisiting = -1
 	playerHand = null
