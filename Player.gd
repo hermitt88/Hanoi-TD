@@ -2,9 +2,10 @@ extends Area2D
 
 onready var Main = get_node("..")
 onready var Towers = get_node("../Towers")
+onready var InteractBtn = get_node("../UI/MobileControls/InteractBtn")
 
 var velocity = Vector2()
-var speed = 200
+var speed = 300
 
 var screen_size
 
@@ -15,6 +16,7 @@ var diskThickness = 28
 var visiting
 var lastVisited
 signal showGhost(tower, color, disk)
+signal changeInteractBtnColor(color)
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
@@ -26,7 +28,6 @@ const colorBlueGhost = Color(0, 0, 255, 0.9)
 func _ready():
 	screen_size = get_viewport_rect().size
 	visiting = null
-	Main.connect("newDiskOnHand", self, "_on_newDisk")
 	Main.connect("handleDisk", self, "_on_handleDisk")
 
 func _process(delta):
@@ -39,13 +40,17 @@ func _process(delta):
 			var towerLevel = visiting.get("towerLevel")
 			if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
 				emit_signal("showGhost", visiting, colorBlueGhost, onHand)
+				emit_signal("changeInteractBtnColor", false)
 			else:
 				emit_signal("showGhost", visiting, colorRedGhost, onHand)
+				emit_signal("changeInteractBtnColor", true)
 		else:
 			emit_signal("showGhost", visiting, null, onHand)
+			emit_signal("changeInteractBtnColor", false)
 			
 	else:
 		emit_signal("showGhost", lastVisited, null, onHand)
+		emit_signal("changeInteractBtnColor", false)
 		lastVisited = null
 	
 	velocity = Vector2.ZERO

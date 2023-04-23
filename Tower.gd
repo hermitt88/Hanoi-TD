@@ -13,14 +13,6 @@ var diskThickness = 28
 onready var upgradeBar = $TextureProgress
 onready var Player = get_node("/root/Main/Player")
 
-#var rng = RandomNumberGenerator.new()
-
-var Bullet = preload("res://Bullet.tscn")
-var atkPierce
-var atkDuration
-var atkFreeze
-var atkRange
-
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
 const colorRedGhost = Color(255, 0, 0, 1)
@@ -44,11 +36,6 @@ func _ready():
 	towerLevel = 3
 	while towerArray.size() < towerLevel:
 		generateFloor()
-	atkPierce = 0
-	atkDuration = 2
-	atkFreeze = 0
-	atkRange = 640
-	#fire()
 	upgradeBar.set("visible", false)
 	
 	GhostDisk = null
@@ -92,31 +79,6 @@ func draw_disk(height, diskLevel, diskColor):
 	draw_circle(circleCenter1, circleRadius, diskColor)
 	draw_circle(circleCenter2, circleRadius, diskColor)
 	draw_rect(Rect2(rectStart, rectSize), diskColor)
-
-func fire():
-	if diskArray:
-		var newBullet = Bullet.instance()
-		newBullet.position.y = - 48 + randi() % 65 - 32
-		var BulletDamage = 0
-		var Pierce = 0
-		var Freeze = 0
-		var Duration = 2
-		for i in diskArray.size():
-			BulletDamage += diskArray[i] * towerArray[i]["power"]
-			if towerArray[i]["type"] == colorRed:
-				Pierce += 1
-			if towerArray[i]["type"] == colorBlue:
-				Freeze += 0.8
-			if towerArray[i]["type"] == colorGreen:
-				Duration *= 0.6
-		newBullet.set("damage", BulletDamage)
-		newBullet.set("atkPierce", Pierce)
-		newBullet.set("atkFreeze", Freeze)
-		newBullet.set("atkRange", atkRange)
-		atkDuration = Duration
-		add_child(newBullet)
-	yield(get_tree().create_timer(atkDuration), "timeout")
-	fire()
 
 func _on_showGhost(tower, color, disk):
 	if tower == self:
