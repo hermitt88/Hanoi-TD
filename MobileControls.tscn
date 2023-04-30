@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/UI/mobileBtns/leftBtn.png" type="Texture" id=1]
 [ext_resource path="res://assets/UI/mobileBtns/rightBtn.png" type="Texture" id=2]
-[ext_resource path="res://assets/UI/mobileBtns/blueSquare.png" type="Texture" id=3]
+[ext_resource path="res://assets/UI/mobileBtns/graySquare.png" type="Texture" id=3]
 [ext_resource path="res://assets/UI/mobileBtns/leftBtnNormal.png" type="Texture" id=4]
 [ext_resource path="res://assets/UI/mobileBtns/rightBtnNormal.png" type="Texture" id=5]
 [ext_resource path="res://InteractBtn.gd" type="Script" id=6]
@@ -12,6 +12,13 @@
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 720.0
 margin_bottom = 192.0
+color = Color( 0.423529, 0.164706, 0.988235, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 710.0
+margin_bottom = 182.0
 color = Color( 1, 0.972549, 0.862745, 1 )
 
 [node name="LeftBtn" type="TouchScreenButton" parent="."]

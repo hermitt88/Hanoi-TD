@@ -58,8 +58,6 @@ func _draw():
 func generateFloor():
 	var thisFloor = {}
 	var typeNum
-	#thisFloor["power"] = pow(towerArray.size() + 1, 2)
-	thisFloor["power"] = 2
 	typeNum = randi() % 3 + 1
 	thisFloor["type"] =  colorArray[typeNum]
 	towerArray.append(thisFloor)

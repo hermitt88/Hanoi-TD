@@ -33,24 +33,28 @@ func _ready():
 func _process(delta):
 	if get_overlapping_areas():
 		visiting = get_overlapping_areas().front()
+		var diskArray = visiting.get("diskArray")
 		if visiting != lastVisited:
 			lastVisited = visiting
 		if onHand:
-			var diskArray = visiting.get("diskArray")
+			#diskArray = visiting.get("diskArray")
 			var towerLevel = visiting.get("towerLevel")
 			if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
 				emit_signal("showGhost", visiting, colorBlueGhost, onHand)
-				emit_signal("changeInteractBtnColor", false)
+				emit_signal("changeInteractBtnColor", "blue")
 			else:
 				emit_signal("showGhost", visiting, colorRedGhost, onHand)
-				emit_signal("changeInteractBtnColor", true)
+				emit_signal("changeInteractBtnColor", "red")
 		else:
 			emit_signal("showGhost", visiting, null, onHand)
-			emit_signal("changeInteractBtnColor", false)
+			if diskArray:
+				emit_signal("changeInteractBtnColor", "blue")
+			else:
+				emit_signal("changeInteractBtnColor", "gray")
 			
 	else:
 		emit_signal("showGhost", lastVisited, null, onHand)
-		emit_signal("changeInteractBtnColor", false)
+		emit_signal("changeInteractBtnColor", "gray")
 		lastVisited = null
 	
 	velocity = Vector2.ZERO

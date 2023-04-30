@@ -38,6 +38,7 @@ scale = Vector2( 1.125, 2.667 )
 texture = ExtResource( 5 )
 
 [node name="ShiftingLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
 motion_mirroring = Vector2( 720, 640 )
 script = ExtResource( 9 )
 
