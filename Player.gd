@@ -37,7 +37,6 @@ func _process(delta):
 		if visiting != lastVisited:
 			lastVisited = visiting
 		if onHand:
-			#diskArray = visiting.get("diskArray")
 			var towerLevel = visiting.get("towerLevel")
 			if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
 				emit_signal("showGhost", visiting, colorBlueGhost, onHand)
