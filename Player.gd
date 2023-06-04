@@ -3,6 +3,7 @@ extends Area2D
 onready var Main = get_node("..")
 onready var Towers = get_node("../Towers")
 onready var InteractBtn = get_node("../UI/MobileControls/InteractBtn")
+onready var ShiftingLayer = get_node("../ParallaxBackground/ShiftingLayer")
 
 var velocity = Vector2()
 var speed = 300
@@ -15,8 +16,10 @@ var diskThickness = 28
 
 var visiting
 var lastVisited
+var diskFrom
 signal showGhost(tower, color, disk)
 signal changeInteractBtnColor(color)
+signal countMove()
 
 const colorWhite = Color(255, 255, 255, 1)
 const colorRed = Color(255, 0, 0, 1)
@@ -28,9 +31,13 @@ const colorBlueGhost = Color(0, 0, 255, 0.9)
 func _ready():
 	screen_size = get_viewport_rect().size
 	visiting = null
+	diskFrom = null
 	Main.connect("handleDisk", self, "_on_handleDisk")
 
 func _process(delta):
+	var x = PI / 3 * (self.position.x / 360 - 1)
+	ShiftingLayer.motion_offset = 640 * Vector2(sin(x), -cos(x))
+	
 	if get_overlapping_areas():
 		visiting = get_overlapping_areas().front()
 		var diskArray = visiting.get("diskArray")
@@ -52,6 +59,7 @@ func _process(delta):
 				emit_signal("changeInteractBtnColor", "gray")
 			
 	else:
+		visiting = null
 		emit_signal("showGhost", lastVisited, null, onHand)
 		emit_signal("changeInteractBtnColor", "gray")
 		lastVisited = null
@@ -92,11 +100,14 @@ func _on_handleDisk():
 		var towerLevel = visiting.get("towerLevel")
 		if onHand:
 			if !diskArray or diskArray.size() < towerLevel and onHand < diskArray[-1]:
+				if visiting != diskFrom:
+					emit_signal("countMove")
 				diskArray.append(onHand)
 				onHand = null
 		else:
 			if diskArray:
 				onHand = diskArray.pop_back()
+				diskFrom = visiting
 		visiting.set("diskArray", diskArray)
 					
 		pass
